@@ -37,4 +37,25 @@ class PostController extends Controller
     public function create(){
         return view("posts.create");
     }
+
+    public function store(){
+        // 1- get the form submition data into variables
+        // 2- data validation
+        // 3- store the data in the database
+        // 4- redirection
+
+        // $post = request()->all();
+        // dd($post);
+
+        // $title= $post["title"];
+        $title= request()->title;
+
+        // $description= $post["description"];
+        $description= request()->description;
+
+        // $creator= $post["creator"];
+        $creator = request()->creator;
+        dd($title, $description , $creator);
+        return 'ff';
+    }
 }
