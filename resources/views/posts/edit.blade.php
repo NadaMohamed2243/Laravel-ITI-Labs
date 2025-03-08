@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="px-6 py-4">
-                    <form method='POST' action={{route('posts.update',$post['id'])}}>
+                    <form method='POST' action={{route('posts.update', $post['id'])}}>
                         @csrf
                         @method('PUT') <!-- This is necessary to override the method -->
 
@@ -35,8 +35,8 @@
                                 Creator</label>
                             <select id="creator" name="creator"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border bg-white">
-                                <option value="1" {{$post['posted_by']=='Ahmed'?'selected':''}} >Ahmed</option>
-                                <option value="2" {{$post['posted_by']=='Mohamed'?'selected':''}}>Mohamed</option>
+                                <option value="1" {{$post['posted_by'] == 'Ahmed' ? 'selected' : ''}}>Ahmed</option>
+                                <option value="2" {{$post['posted_by'] == 'Mohamed' ? 'selected' : ''}}>Mohamed</option>
                             </select>
                         </div>
 
