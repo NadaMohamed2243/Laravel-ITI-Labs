@@ -39,7 +39,7 @@ class PostController extends Controller
     }
 
     public function store(){
-        // 1- get the form submition data into variables
+        // 1- get the form submission data into variables
         // 2- data validation
         // 3- store the data in the database
         // 4- redirection
@@ -55,7 +55,13 @@ class PostController extends Controller
 
         // $creator= $post["creator"];
         $creator = request()->creator;
-        dd($title, $description , $creator);
-        return 'ff';
+
+        // dd($title, $description , $creator);
+
+        //go to the index page (all posts)
+        // return to_route('posts.index');
+
+        //go to show post page
+        return to_route('posts.show',1);
     }
 }

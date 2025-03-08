@@ -21,7 +21,7 @@
                         <a class="text-lg font-semibold text-gray-900" href="#">ITI Blog Post</a>
                     </div>
                     <div class="ml-6 flex items-center space-x-4">
-                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500" href="#">All
+                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500" href={{ route('posts.index') }}>All
                             Posts</a>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
 
             <!-- Back Button -->
             <div class="flex justify-end">
-                <a href="#"
+                <a href={{ route('posts.index') }}
                     class="px-4 py-2 bg-gray-600 text-white font-medium rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Back to All Posts
                 </a>
