@@ -34,11 +34,13 @@ class PostController extends Controller
         return view("posts.show", ['post' => $post]);
     }
 
-    public function create(){
+    public function create()
+    {
         return view("posts.create");
     }
 
-    public function store(){
+    public function store()
+    {
         // 1- get the form submission data into variables
         // 2- data validation
         // 3- store the data in the database
@@ -48,10 +50,10 @@ class PostController extends Controller
         // dd($post);
 
         // $title= $post["title"];
-        $title= request()->title;
+        $title = request()->title;
 
         // $description= $post["description"];
-        $description= request()->description;
+        $description = request()->description;
 
         // $creator= $post["creator"];
         $creator = request()->creator;
@@ -62,6 +64,38 @@ class PostController extends Controller
         // return to_route('posts.index');
 
         //go to show post page
-        return to_route('posts.show',1);
+        return to_route('posts.show', 1);
     }
+
+    public function edit($id)
+    {
+        $post = ['id' => $id, 'title' => 'laravel', 'posted_by' => 'Ahmed', 'description' => 'Catch the passed parameter from URL.'];
+        return view('posts.edit', ['post' => $post]);
+    }
+
+    public function update($id)
+    {
+        //1- Validate form data
+        //2- Find the existing post
+        //3- Update the post's details
+        //4- redirection
+
+
+        $data = request()->all();
+        $title = request()->title;
+        $description = request()->description;
+        $creator = request()->creator;
+
+        // dd($data, $title, $description , $id);
+
+        return to_route('posts.index');
+    }
+
+    public function destroy($id)
+    {
+        // The destroy function filters out the post
+        // redirects to the index page.
+        return to_route('posts.index');
+    }
+
 }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create Post</title>
+    <title>Edit Post</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
@@ -20,7 +20,8 @@
                         <a class="text-lg font-semibold text-gray-900" href="#">ITI Blog Post</a>
                     </div>
                     <div class="ml-6 flex items-center space-x-4">
-                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500" href={{route('posts.index') }}>All
+                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500"
+                            href={{route('posts.index') }}>All
                             Posts</a>
                     </div>
                 </div>
@@ -48,21 +49,24 @@
                 </div>
 
                 <div class="px-6 py-4">
-                    <form method='POST' action={{route('posts.store')}}>
-                    @csrf
+                    <form method='POST' action={{route('posts.update',$post['id'])}}>
+                        @csrf
+                        @method('PUT') <!-- This is necessary to override the method -->
+
                         <!-- Title Input -->
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                            <input type="text" id="title" name="title"
+                            <input type="text" id="title" name="title" value="{{ $post['title'] }}"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">
                         </div>
 
+                        {{-- @dd($post); --}}
                         <!-- Description Textarea -->
                         <div class="mb-4">
                             <label for="description"
                                 class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                             <textarea id="description" rows="5" name="description"
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border"></textarea>
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">{{ $post['description'] }}</textarea>
                         </div>
 
                         <!-- Post Creator Select -->
@@ -71,8 +75,8 @@
                                 Creator</label>
                             <select id="creator" name="creator"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border bg-white">
-                                <option value="1">Ahmed</option>
-                                <option value="2">Mohamed</option>
+                                <option value="1" {{$post['posted_by']=='Ahmed'?'selected':''}} >Ahmed</option>
+                                <option value="2" {{$post['posted_by']=='Mohamed'?'selected':''}}>Mohamed</option>
                             </select>
                         </div>
 

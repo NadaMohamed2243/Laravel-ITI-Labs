@@ -19,7 +19,8 @@
                         <a class="text-lg font-semibold text-gray-900" href="#">ITI Blog Post</a>
                     </div>
                     <div class="ml-6 flex items-center space-x-4">
-                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500" href={{route('posts.index') }}>All
+                        <a class="px-3 py-2 text-sm font-medium text-gray-900 border-b-2 border-blue-500"
+                            href={{route('posts.index') }}>All
                             Posts</a>
                     </div>
                 </div>
@@ -70,12 +71,35 @@
                                 <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post['posted_by']}}</td>
                                 <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post['created_at']}}</td>
                                 <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
-                                    <a href={{ route('posts.show',$post['id']) }}
+                                    <a href={{ route('posts.show', $post['id']) }}
                                         class="inline-block px-4 py-1 text-xs font-medium text-white bg-blue-400 rounded hover:bg-blue-500">View</a>
-                                    <a href="#"
+                                    <a href={{ route('posts.edit', $post['id'])}}
                                         class="inline-block px-4 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700">Edit</a>
-                                    <a href="#"
+                                    {{-- <a href={{ route('posts.destroy',$post['id'])}}
                                         class="inline-block px-4 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">Delete</a>
+                                    --}}
+                                    {{--
+                                    ----------------------------------------------------------------------------------------------------------------------------------
+                                    --}}
+                                    {{--
+                                    The Delete action should be performed using the DELETE method, but <a> tags always use
+                                        GET, which means when you click "Delete," it follows the posts/{post} route (which
+                                        is the show route) instead of calling the destroy method.
+                                        Laravel requires a POST request with _method set to DELETE for deleting. --}}
+                                        {{--
+                                        ----------------------------------------------------------------------------------------------------------------------------------
+                                        --}}
+                                        <form action="{{ route('posts.destroy', $post['id']) }}" method="POST"
+                                            style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-block px-4 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700 cursor-pointer">
+                                                Delete
+                                            </button>
+                                        </form>
+
+
                                 </td>
                             </tr>
                         @endforeach
