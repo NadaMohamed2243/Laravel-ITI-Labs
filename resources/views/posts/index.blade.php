@@ -23,14 +23,15 @@
                 <tbody class="divide-y divide-gray-200">
                     @foreach ($posts as $post)
                         <tr>
-                            <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900">{{ $post['id']}}</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post['title']}}</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post['posted_by']}}</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post['created_at']}}</td>
+                            {{-- laravel magic (obj can access is as array) $post['id'] == $post->id --}}
+                            <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900">{{ $post->id }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->title}}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->posted_by}}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at}}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
-                                <x-button type="primary" href="{{ route('posts.show', $post['id']) }}">View</x-button>
-                                <x-button type="secondary" href="{{ route('posts.edit', $post['id']) }}">Edit</x-button>
-                                <x-button type="danger" href="{{ route('posts.destroy', $post['id']) }}"
+                                <x-button type="primary" href="{{ route('posts.show', $post->id) }}">View</x-button>
+                                <x-button type="secondary" href="{{ route('posts.edit', $post->id) }}">Edit</x-button>
+                                <x-button type="danger" href="{{ route('posts.destroy', $post->id) }}"
                                     method="DELETE">Delete</x-button>
                                 {{-- <form action="{{ route('posts.destroy', $post['id']) }}" method="POST"
                                     style="display: inline;">
