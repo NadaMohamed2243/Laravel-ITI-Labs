@@ -26,7 +26,8 @@
                             {{-- laravel magic (obj can access is as array) $post['id'] == $post->id --}}
                             <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900">{{ $post->id }}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->title}}</td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->posted_by}}</td>
+                            {{-- <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->user?->name}}</td> --}}
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->user?$post->user->name:'User Not Found'}}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at}}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
                                 <x-button type="primary" href="{{ route('posts.show', $post->id) }}">View</x-button>
