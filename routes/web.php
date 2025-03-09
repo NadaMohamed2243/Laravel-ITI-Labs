@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CommentController;
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
@@ -27,3 +27,11 @@ Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show')
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+
+// Edit a comment
+Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+// Update a comment
+Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');

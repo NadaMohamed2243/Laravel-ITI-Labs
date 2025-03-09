@@ -12,8 +12,9 @@ class PostController extends Controller
     public function index()
     {
 
+        $posts = Post::with('user')->paginate(10);
         //select * from posts =
-        $posts = Post::all();  //==> Post --> model name
+        // $posts = Post::all();  //==> Post --> model name
         // dd($posts);  //==> this will show collection object(Eloquent)
 
         // $l=Post::where("title",'=','First Post')->get();
