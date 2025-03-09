@@ -26,16 +26,21 @@ class PostController extends Controller
         //catch the passed parameter from url
         // dd($id);
 
-        $post = [
-            'id' => 1,
-            'title' => 'laravel',
-            'posted_by' => [
-                'name' => 'Ahmed',
-                'email' => 'Ahmed@gmail.com',
-                'created_at' => 'Tuesday 25th of March 2025 12:47:00 PM',
-            ],
-            'description' => 'Catch the passed parameter from URL.'
-        ];
+        // select * from posts where id = $id limit 1
+        $post = Post::find($id);   // object type Post Model
+        // dd($post);
+
+
+        //select * from posts where id = $id
+        // $post = Post::where('id','=',$id)->get();   // object type collection (not recommended here)
+        // dd($post);
+
+
+        //select * from posts where id = $id limit 1
+        // $post = Post::where('id','=',$id)->first();   // object type Post Model
+        // dd($post);
+
+
         return view("posts.show", ['post' => $post]);
     }
 

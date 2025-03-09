@@ -9,11 +9,11 @@
             <div class="px-4 py-4">
                 <div class="mb-2">
                     <h3 class="text-lg font-medium text-gray-800">Title :- <span
-                            class="font-normal">{{$post['title']}}</span></h3>
+                            class="font-normal">{{$post->title}}</span></h3>
                 </div>
                 <div>
                     <h3 class="text-lg font-medium text-gray-800">Description :-</h3>
-                    <p class="text-gray-600">{{$post['description']}}</p>
+                    <p class="text-gray-600">{{$post->description}}</p>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
             <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
                 <h2 class="text-base font-medium text-gray-700">Post Creator Info</h2>
             </div>
-            <div class="px-4 py-4">
+            {{-- <div class="px-4 py-4">
                 <div class="mb-2">
                     <h3 class="text-lg font-medium text-gray-800">Name :- <span
                             class="font-normal">{{$post['posted_by']['name']}}</span></h3>
@@ -36,7 +36,7 @@
                     <h3 class="text-lg font-medium text-gray-800">Created At :- <span
                             class="font-normal">{{$post['posted_by']['created_at']}}</span></h3>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Back Button -->
