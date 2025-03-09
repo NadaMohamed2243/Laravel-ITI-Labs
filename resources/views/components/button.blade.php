@@ -9,14 +9,9 @@
 @endphp
 
 @if ($method === 'DELETE')
-    <form action="{{ $href }}" method="POST" class="inline-block">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="{{ $classes[$type] ?? $classes['primary'] }} cursor-pointer" {{--
-            onclick="return confirm('Are you sure you want to delete this?');" --}}>
-            {{ $slot }}
-        </button>
-    </form>
+    <button type="button" onclick="showDeleteAlert('{{ $href }}')" class="{{ $classes[$type] ?? $classes['primary'] }} cursor-pointer">
+        {{ $slot }}
+    </button>
 @else
     <a href="{{ $href }}" class="{{ $classes[$type] ?? $classes['primary'] }}">
         {{ $slot }}

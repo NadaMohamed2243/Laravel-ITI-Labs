@@ -27,13 +27,16 @@
                             <td class="px-4 py-2 font-medium whitespace-nowrap text-gray-900">{{ $post->id }}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->title}}</td>
                             {{-- <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->user?->name}}</td> --}}
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->user?$post->user->name:'User Not Found'}}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">
+                                {{$post->user ? $post->user->name : 'User Not found'}}
+                            </td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at}}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
                                 <x-button type="primary" href="{{ route('posts.show', $post->id) }}">View</x-button>
                                 <x-button type="secondary" href="{{ route('posts.edit', $post->id) }}">Edit</x-button>
                                 <x-button type="danger" href="{{ route('posts.destroy', $post->id) }}"
                                     method="DELETE">Delete</x-button>
+
                                 {{-- <form action="{{ route('posts.destroy', $post['id']) }}" method="POST"
                                     style="display: inline;">
                                     @csrf
@@ -92,4 +95,35 @@
             </ol>
         </div>
     </div>
+
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-alert" class="hidden fixed inset-0 bg-[rgba(128,128,166,0.4)] flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-lg font-semibold text-gray-800">Confirm Deletion</h2>
+            <p class="text-gray-600 mt-2">Are you sure you want to delete this item?</p>
+            <div class="mt-4 flex justify-end space-x-2">
+                <button onclick="hideDeleteAlert()"
+                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-pointer">Cancel</button>
+                <form id="delete-form" method="POST" class="inline-block">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded cursor-pointer">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function showDeleteAlert(href) {
+            document.getElementById('delete-alert').classList.remove('hidden');
+            document.getElementById('delete-form').setAttribute('action', href);
+        }
+
+        function hideDeleteAlert() {
+            document.getElementById('delete-alert').classList.add('hidden');
+        }
+    </script>
+
 </x-layout>

@@ -92,7 +92,7 @@ class PostController extends Controller
 
         //=======================second way==========================
 
-        $post = Post::create(["title"=> $title,'description' => $description ,'user_id' => $creator]);
+        $post = Post::create(["title" => $title, 'description' => $description, 'user_id' => $creator]);
 
         //go to the index page (all posts)
         // return to_route('posts.index');
@@ -104,7 +104,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $users = User::all();   //==> User --> model name
-        $post = ['id' => $id, 'title' => 'laravel', 'posted_by' => 'Ahmed', 'description' => 'Catch the passed parameter from URL.'];
+        $post = Post::find($id);   // object type Post Model
         return view('posts.edit', ['post' => $post, 'users' => $users]);
     }
 
@@ -115,13 +115,26 @@ class PostController extends Controller
         //3- Update the post's details
         //4- redirection
 
+        $post = Post::find($id);
 
-        $data = request()->all();
+        // $data = request()->all();
         $title = request()->title;
         $description = request()->description;
         $creator = request()->creator;
 
-        // dd($data, $title, $description , $id);
+        //==============first way ====================
+        // $post->title = $title;
+        // $post->description = $description;
+        // $post->user_id = $creator;
+        // $post->save();
+
+        //==============second way ====================
+        $post->update([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $creator,
+        ]);
+
 
         return to_route('posts.index');
     }
@@ -130,6 +143,10 @@ class PostController extends Controller
     {
         // The destroy function filters out the post
         // redirects to the index page.
+        $post = Post::find($id);
+        $post->delete();
+
+
         return to_route('posts.index');
     }
 
