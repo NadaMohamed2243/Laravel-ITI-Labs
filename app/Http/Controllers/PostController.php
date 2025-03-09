@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -46,7 +47,13 @@ class PostController extends Controller
 
     public function create()
     {
-        return view("posts.create");
+        //we want the creator dropdown menu to be filled with the users from users table
+        //1- get all users from users table
+        //2- pass the users to the view
+
+
+        $users = User::all();   //==> User --> model name
+        return view("posts.create",["users"=>$users]);
     }
 
     public function store()
@@ -79,8 +86,9 @@ class PostController extends Controller
 
     public function edit($id)
     {
+        $users = User::all();   //==> User --> model name
         $post = ['id' => $id, 'title' => 'laravel', 'posted_by' => 'Ahmed', 'description' => 'Catch the passed parameter from URL.'];
-        return view('posts.edit', ['post' => $post]);
+        return view('posts.edit', ['post' => $post , 'users'=>$users]);
     }
 
     public function update($id)
