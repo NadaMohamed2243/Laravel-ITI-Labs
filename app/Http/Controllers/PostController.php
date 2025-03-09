@@ -53,7 +53,7 @@ class PostController extends Controller
 
 
         $users = User::all();   //==> User --> model name
-        return view("posts.create",["users"=>$users]);
+        return view("posts.create", ["users" => $users]);
     }
 
     public function store()
@@ -77,18 +77,35 @@ class PostController extends Controller
 
         // dd($title, $description , $creator);
 
+        //=======================to insert we have 2 ways==========================
+        //insert into posts (title, description, creator) values ($title, $description, $creator)
+
+        //=======================first way==========================
+        // $post = new Post;
+
+        // $post->title = $title;
+        // $post->description = $description;
+        // $post->user_id = $creator;
+
+        // $post->save();
+
+
+        //=======================second way==========================
+
+        $post = Post::create(["title"=> $title,'description' => $description ,'user_id' => $creator]);
+
         //go to the index page (all posts)
         // return to_route('posts.index');
 
         //go to show post page
-        return to_route('posts.show', 1);
+        return to_route('posts.show', $post->id);
     }
 
     public function edit($id)
     {
         $users = User::all();   //==> User --> model name
         $post = ['id' => $id, 'title' => 'laravel', 'posted_by' => 'Ahmed', 'description' => 'Catch the passed parameter from URL.'];
-        return view('posts.edit', ['post' => $post , 'users'=>$users]);
+        return view('posts.edit', ['post' => $post, 'users' => $users]);
     }
 
     public function update($id)
