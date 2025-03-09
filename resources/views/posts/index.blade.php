@@ -30,7 +30,7 @@
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">
                                 {{$post->user ? $post->user->name : 'User Not found'}}
                             </td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at}}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at->format('Y-m-d')}}</td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
                                 <x-button type="primary" href="{{ route('posts.show', $post->id) }}">View</x-button>
                                 <x-button type="secondary" href="{{ route('posts.edit', $post->id) }}">Edit</x-button>

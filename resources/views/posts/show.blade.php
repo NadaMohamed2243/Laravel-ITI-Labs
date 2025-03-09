@@ -34,7 +34,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-medium text-gray-800">Created At :- <span
-                            class="font-normal">{{$post->user?->created_at}}</span></h3>
+                            class="font-normal">{{$post->user?->created_at->translatedFormat('l jS \\of F Y H:i:s')}}</span></h3>
                 </div>
             </div>
         </div>
