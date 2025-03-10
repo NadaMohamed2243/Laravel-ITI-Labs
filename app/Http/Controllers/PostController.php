@@ -50,7 +50,7 @@ class PostController extends Controller
         request()->validate([
             'title' => ['required','min:3' , 'unique:posts'],
             'description' => ['required' ,'min:10'],
-            'creator' => 'required',
+            'creator' => ['required','exists:users,id'],
         ]);
 
         $post = Post::create(["title" => $title, 'description' => $description, 'user_id' => $creator]);
@@ -80,7 +80,7 @@ class PostController extends Controller
         request()->validate([
             'title' => ['required','min:3' , Rule::unique('posts')->ignore($id)],
             'description' => ['required' ,'min:10'],
-            'creator' => 'required',
+            'creator' => ['required','exists:users,id'],
         ]);
 
 
