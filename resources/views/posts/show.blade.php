@@ -48,7 +48,7 @@
             <div class="px-4 py-4 space-y-4">
                 @foreach($post->comments as $comment)
                     <div class="border-b border-gray-200 pb-2">
-                        <p class="text-gray-800">{{ $comment->content }}</p>
+                        <p class="flex justify-between text-gray-800"><span class="p-2 my-2 bg-blue-50 rounded border border-blue-300 break-words max-w-[550px] w-full">{{ $comment->content }}</span> <span class="p-2 bg-gray-100 rounded max-h-[45px]">{{ $comment->created_at }}</span> </p>
                         <div class="flex space-x-2">
                             <a href="{{ route('comments.edit', $comment) }}" class="text-blue-600 cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300">Edit</a>
                             <form action="{{ route('comments.destroy', $comment) }}" method="POST">
