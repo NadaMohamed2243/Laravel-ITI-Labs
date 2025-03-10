@@ -9,16 +9,16 @@
                 </div>
 
                 @if ($errors->any())
-    <div role="alert" class="max-w-3xl mx-auto mb-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
-        <strong class="block font-medium text-red-800"> Something went wrong </strong>
-        <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
+                    <div role="alert" class="max-w-3xl mx-auto mb-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+                        <strong class="block font-medium text-red-800"> Something went wrong </strong>
+                        {{-- <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
 
-        </ul>
-      </div>
-      @endif
+                        </ul> --}}
+                    </div>
+                @endif
 
                 {{-- @dd($post); --}}
                 <div class="px-6 py-4">
@@ -31,6 +31,12 @@
                             <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
                             <input type="text" id="title" name="title" value="{{ $post->title }}"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">
+                            @error('title')
+                                <div role="alert"
+                                    class="max-w-3xl mx-auto m-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         {{-- @dd($post); --}}
@@ -40,6 +46,12 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                             <textarea id="description" rows="5" name="description"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">{{ $post->description }}</textarea>
+                            @error('description')
+                                <div role="alert"
+                                    class="max-w-3xl mx-auto m-2 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <!-- Post Creator Select -->
                         <div class="mb-6">
@@ -47,10 +59,16 @@
                                 Creator</label>
                             <select id="creator" name="creator"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border bg-white">
-                                @foreach ( $users as $user)
-                                <option value={{ $user->id }} {{$post->user?->name == $user->name ? 'selected' : ''}}>{{ $user->name }}</option>
+                                @foreach ($users as $user)
+                                    <option value={{ $user->id }} {{$post->user?->name == $user->name ? 'selected' : ''}}>{{ $user->name }}</option>
                                 @endforeach
                             </select>
+                            @error('creator')
+                                <div role="alert"
+                                    class="max-w-3xl mx-auto m-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         <!-- Submit Button -->

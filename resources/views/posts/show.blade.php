@@ -48,14 +48,27 @@
             <div class="px-4 py-4 space-y-4">
                 @foreach($post->comments as $comment)
                     <div class="border-b border-gray-200 pb-2">
-                        <p class="flex justify-between text-gray-800"><span class="p-2 my-2 bg-blue-50 rounded border border-blue-300 break-words max-w-[550px] w-full">{{ $comment->content }}</span> <span class="p-2 bg-gray-100 rounded max-h-[45px]">{{ $comment->created_at }}</span> </p>
-                        <div class="flex space-x-2">
-                            <a href="{{ route('comments.edit', $comment) }}" class="text-blue-600 cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300">Edit</a>
-                            <form action="{{ route('comments.destroy', $comment) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300">Delete</button>
-                            </form>
+                        <p class="flex justify-between text-gray-800"><span
+                                class="p-2 my-2 bg-blue-50 rounded border border-blue-300 break-words max-w-[550px] w-full">{{ $comment->content }}</span>
+                            <span class="p-2 bg-gray-100 rounded max-h-[45px]">{{ $comment->created_at }}</span>
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-2">
+                                <a href="{{ route('comments.edit', $comment) }}"
+                                    class="text-blue-600 cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300">Edit</a>
+                                <form action="{{ route('comments.destroy', $comment) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="text-red-600 cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300">Delete</button>
+                                </form>
+                            </div>
+                            <div>
+                                @if($comment->created_at != $comment->updated_at)
+                                    <br>
+                                    <strong>Edited:</strong> {{ $comment->updated_at->format('Y-m-d H:i') }}
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -63,8 +76,11 @@
                     @csrf
                     <input type="hidden" name="commentable_type" value="App\Models\Post">
                     <input type="hidden" name="commentable_id" value="{{ $post->id }}">
-                    <textarea name="content" class="w-full border border-gray-300 rounded p-2" rows="3" placeholder="Add a comment"></textarea>
-                    <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">Add Comment</button>
+                    <textarea name="content" class="w-full border border-gray-300 rounded p-2" rows="3"
+                        placeholder="Add a comment"></textarea>
+                    <button type="submit"
+                        class="mt-2 px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer">Add
+                        Comment</button>
                 </form>
             </div>
         </div>
