@@ -8,6 +8,18 @@
                     <h2 class="text-xl font-semibold text-gray-800">Create New Post</h2>
                 </div>
 
+                @if ($errors->any())
+    <div role="alert" class="max-w-3xl mx-auto mb-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+        <strong class="block font-medium text-red-800"> Something went wrong </strong>
+        <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+
+        </ul>
+      </div>
+      @endif
+
                 {{-- @dd($post); --}}
                 <div class="px-6 py-4">
                     <form method='POST' action={{route('posts.update', $post->id)}}>

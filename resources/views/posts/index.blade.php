@@ -7,6 +7,7 @@
         </a>
     </div>
 
+
     <!-- Table Component -->
     <div class="mt-6 rounded-lg border border-gray-200">
         <div class="overflow-x-auto rounded-t-lg">
@@ -30,7 +31,8 @@
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700">
                                 {{$post->user ? $post->user->name : 'User Not found'}}
                             </td>
-                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at->format('Y-m-d')}}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-gray-700">{{$post->created_at->format('Y-m-d')}}
+                            </td>
                             <td class="px-4 py-2 whitespace-nowrap text-gray-700 space-x-2">
                                 <x-button type="primary" href="{{ route('posts.show', $post->id) }}">View</x-button>
                                 <x-button type="secondary" href="{{ route('posts.edit', $post->id) }}">Edit</x-button>
@@ -58,7 +60,7 @@
             {{ $posts->links() }}
         </div>
     </div>
-    
+
 
 
     <!-- Delete Confirmation Modal -->
