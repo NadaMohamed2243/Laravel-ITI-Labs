@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -35,7 +36,7 @@ class PostController extends Controller
         return view("posts.create", ["users" => $users]);
     }
 
-    public function store()
+    public function store(PostRequest $request)
     {
         // 1- get the form submission data into variables
         // 2- data validation
@@ -47,11 +48,11 @@ class PostController extends Controller
         $creator = request()->creator;
 
         //==========================data validation================================
-        request()->validate([
-            'title' => ['required','min:3' , 'unique:posts'],
-            'description' => ['required' ,'min:10'],
-            'creator' => ['required','exists:users,id'],
-        ]);
+        // request()->validate([
+        //     'title' => ['required','min:3' , 'unique:posts'],
+        //     'description' => ['required' ,'min:10'],
+        //     'creator' => ['required','exists:users,id'],
+        // ]);
 
         $post = Post::create(["title" => $title, 'description' => $description, 'user_id' => $creator]);
         return to_route('posts.show', $post->id);
@@ -64,7 +65,7 @@ class PostController extends Controller
         return view('posts.edit', ['post' => $post, 'users' => $users]);
     }
 
-    public function update($id)
+    public function update(PostRequest $request,$id)
     {
         //1- Validate form data
         //2- Find the existing post
@@ -77,11 +78,11 @@ class PostController extends Controller
         $creator = request()->creator;
 
 
-        request()->validate([
-            'title' => ['required','min:3' , Rule::unique('posts')->ignore($id)],
-            'description' => ['required' ,'min:10'],
-            'creator' => ['required','exists:users,id'],
-        ]);
+        // request()->validate([
+        //     'title' => ['required','min:3' , Rule::unique('posts')->ignore($id)],
+        //     'description' => ['required' ,'min:10'],
+        //     'creator' => ['required','exists:users,id'],
+        // ]);
 
 
         $post->update([
