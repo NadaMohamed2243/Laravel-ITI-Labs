@@ -2,6 +2,7 @@
 <x-layout title="Show Post">
     <div class="max-w-3xl mx-auto space-y-6">
         <!-- Post Info Card -->
+        {{-- @dd($post); --}}
         <div class="bg-white rounded border border-gray-200">
             <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
                 <h2 class="text-base font-medium text-gray-700">Post Info</h2>

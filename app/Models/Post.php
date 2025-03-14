@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory ,Sluggable;
     protected $fillable = ['title', 'description', 'user_id'];
 
     //link the post model to the user model
@@ -36,5 +36,17 @@ class Post extends Model
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+                // This updates the slug if the title changes because the default is false
+                'onUpdate' => true
+            ]
+        ];
     }
 }
