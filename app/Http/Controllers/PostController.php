@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Post;
 use App\Models\User;
@@ -38,23 +39,28 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        // 1- get the form submission data into variables
-        // 2- data validation
-        // 3- store the data in the database
-        // 4- redirection
+        // Get validated data from the request
+        $validatedData = $request->validated();
 
-        $title = request()->title;
-        $description = request()->description;
-        $creator = request()->creator;
+        // dd($request->file('image'));
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $imagePath;
+        }
 
-        //==========================data validation================================
-        // request()->validate([
-        //     'title' => ['required','min:3' , 'unique:posts'],
-        //     'description' => ['required' ,'min:10'],
-        //     'creator' => ['required','exists:users,id'],
-        // ]);
+        // dd($validatedData['image']);
+        // Create the post
+        $post = Post::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'user_id' => $validatedData['creator'],
+            'image' => $validatedData['image'], // Use null if no image is uploaded
+        ]);
+        // dd($post);
 
-        $post = Post::create(["title" => $title, 'description' => $description, 'user_id' => $creator]);
+
+        // Redirect to the post's show page
         return to_route('posts.show', $post->id);
     }
 
@@ -65,30 +71,29 @@ class PostController extends Controller
         return view('posts.edit', ['post' => $post, 'users' => $users]);
     }
 
-    public function update(PostRequest $request,$id)
+    public function update(PostRequest $request, $id)
     {
-        //1- Validate form data
-        //2- Find the existing post
-        //3- Update the post's details
-        //4- redirection
+
 
         $post = Post::find($id);
-        $title = request()->title;
-        $description = request()->description;
-        $creator = request()->creator;
+        $validatedData = $request->validated();
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
 
+            // Store the new image
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $imagePath;
+        }
 
-        // request()->validate([
-        //     'title' => ['required','min:3' , Rule::unique('posts')->ignore($id)],
-        //     'description' => ['required' ,'min:10'],
-        //     'creator' => ['required','exists:users,id'],
-        // ]);
-
-
+        // Update the post
         $post->update([
-            'title' => $title,
-            'description' => $description,
-            'user_id' => $creator,
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'user_id' => $validatedData['creator'],
+            'image' => $validatedData['image'] ?? $post->image,
         ]);
 
 
@@ -98,6 +103,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
         $post->delete();
 
 

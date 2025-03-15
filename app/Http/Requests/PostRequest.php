@@ -26,6 +26,7 @@ class PostRequest extends FormRequest
             'title' => ['required', 'min:3', Rule::unique('posts')->ignore($postId)],
             'description' => ['required' ,'min:10'],
             'creator' => ['required','exists:users,id'],
+            'image' => 'nullable|image|mimes:jpg,png|max:2048',
         ];
     }
 }

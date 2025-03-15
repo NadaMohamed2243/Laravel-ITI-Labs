@@ -19,7 +19,7 @@
                     </div>
                 @endif
                 <div class="px-6 py-4">
-                    <form method='POST' action={{route('posts.store')}}>
+                    <form method='POST' action={{route('posts.store')}} enctype="multipart/form-data">
                         @csrf
                         <!-- Title Input -->
                         <div class="mb-4">
@@ -59,6 +59,19 @@
                                 @endforeach
                             </select>
                             @error('creator')
+                                <div role="alert"
+                                    class="max-w-3xl mx-auto m-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <!-- Image Upload Field -->
+                        <div class="mb-4">
+                            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                            <input type="file" id="image" name="image"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">
+                            @error('image')
                                 <div role="alert"
                                     class="max-w-3xl mx-auto m-4 rounded-sm border-s-4 border-red-500 bg-red-50 p-4">
                                     {{ $message }}
