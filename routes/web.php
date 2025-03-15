@@ -9,7 +9,7 @@ use App\Http\Controllers\CommentController;
 
 
 
-
+// Route::get('/posts', [PostController::class, 'index']);
 Route::middleware(['auth'])->get('/posts', [PostController::class, 'index'])->name('posts.index');
 
 // show form

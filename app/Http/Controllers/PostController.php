@@ -6,6 +6,9 @@ use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
+
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Post;
 use App\Models\User;
@@ -15,53 +18,35 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('user')->paginate(10);
-
         return view("posts.index", ['posts' => $posts]);
+        // $posts = Post::all()->toArray();
+        // return Inertia::render('Posts/Index', ['posts' => $posts]);
     }
 
     public function show($id)
     {
         $post = Post::find($id);
-
         return view("posts.show", ['post' => $post]);
     }
 
     public function create()
     {
-        //we want the creator dropdown menu to be filled with the users from users table
-        //1- get all users from users table
-        //2- pass the users to the view
-
-
         $users = User::all();
         return view("posts.create", ["users" => $users]);
     }
 
     public function store(PostRequest $request)
     {
-        // Get validated data from the request
         $validatedData = $request->validated();
 
-        // dd($request->file('image'));
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $validatedData['image'] = $imagePath;
-        }
-
-        // dd($validatedData['image']);
-        // Create the post
         $post = Post::create([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'user_id' => $validatedData['creator'],
-            'image' => $validatedData['image'], // Use null if no image is uploaded
+            'image' => $request->file('image') ?? null,  // Image will be handled by Mutator
         ]);
-        // dd($post);
 
-
-        // Redirect to the post's show page
-        return to_route('posts.show', $post->id);
+        return redirect()->route('posts.show', $post->id);
     }
 
     public function edit($id)
@@ -73,40 +58,38 @@ class PostController extends Controller
 
     public function update(PostRequest $request, $id)
     {
-
-
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         $validatedData = $request->validated();
+
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
+            // Delete the old image if a new one is uploaded
             if ($post->image) {
                 Storage::disk('public')->delete($post->image);
             }
-
-            // Store the new image
             $imagePath = $request->file('image')->store('images', 'public');
-            $validatedData['image'] = $imagePath;
+        } else {
+            $imagePath = $post->image; // Keep the existing image
         }
 
-        // Update the post
         $post->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'user_id' => $validatedData['creator'],
-            'image' => $validatedData['image'] ?? $post->image,
+            'image' => $imagePath,
         ]);
 
-
-        return to_route('posts.index');
+        return redirect()->route('posts.index');
     }
 
     public function destroy($id)
     {
-        $post = Post::find($id);
 
-        if ($post->image) {
-            Storage::disk('public')->delete($post->image);
-        }
+        $post = Post::find($id);
+        // Log::info('Image stored in DB:', ['image' => $post->image]);
+        // if ($post->image) {
+        //     Storage::disk('public')->delete($post->image);
+        // }
+
         $post->delete();
 
 

@@ -56,11 +56,33 @@
 
 
 
-                        <!-- Image Upload -->
+                        {{-- <!-- Image Upload -->
                         <div class="mb-4">
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
                             <input type="file" id="image" name="image" value="{{ $post->image }}"
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">
+                            @error('image')
+                            <div role="alert" class="text-red-500">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Image Preview -->
+                        @if ($post->image)
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-700">Current Image:</p>
+                            <img src="{{ $post->image }}" alt="Post Image" class="w-32 h-32 object-cover rounded-lg">
+                        </div>
+                        @endif --}}
+
+                        <!-- Image Upload -->
+                        <div class="mb-4">
+                            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
+                            <input type="file" id="image" name="image"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 border">
+
+                            <!-- Store the existing image path -->
+                            <input type="hidden" name="existing_image" value="{{ $post->image }}">
+
                             @error('image')
                                 <div role="alert" class="text-red-500">{{ $message }}</div>
                             @enderror
@@ -70,9 +92,11 @@
                         @if ($post->image)
                             <div class="mb-4">
                                 <p class="text-sm text-gray-700">Current Image:</p>
-                                <img src="{{ $post->image }}" alt="Post Image" class="w-32 h-32 object-cover rounded-lg">
+                                <img src="{{ $post->image }}"
+                                    alt="Post Image" class="w-32 h-32 object-cover rounded-lg">
                             </div>
                         @endif
+
 
                         <!-- Post Creator Select -->
                         <div class="mb-6">

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 class Post extends Model
 {
     use HasFactory, Sluggable;
@@ -51,45 +52,57 @@ class Post extends Model
         ];
     }
 
-    // In Post model
-    // public function setImageAttribute($value)
-    // {
-    //     if ($value && $value instanceof \Illuminate\Http\UploadedFile) {
-    //         // Delete old image if exists
-    //         if (!empty($this->attributes['image'])) {
-    //             Storage::disk('public')->delete($this->attributes['image']);
-    //         }
-
-    //         // Store new image
-    //         $this->attributes['image'] = $value->store('posts', 'public');
-    //     }
-    // }
-
-    // public function getImageUrlAttribute()
-    // {
-    //     return $this->image ? Storage::url($this->image) : null;
-    // }
-
-    // protected static function booted()
-    // {
-    //     static::deleting(function ($post) {
-    //         if ($post->image) {
-    //             Storage::disk('public')->delete($post->image);
-    //         }
-    //     });
-    // }
-
+    // **Mutator for Image Handling**
     public function setImageAttribute($value)
     {
-        if (isset($this->attributes['image']) && $value !== $this->attributes['image']) {
-            Storage::disk('public')->delete($this->attributes['image']);
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            // Delete old image before storing a new one
+            if (!empty($this->attributes['image'])) {
+                Storage::disk('public')->delete($this->attributes['image']);
+            }
+
+            $this->attributes['image'] = $value->store('images', 'public');
         }
-
-        $this->attributes['image'] = $value;
     }
 
-    public function getImageAttribute()
+    // **Accessor for Retrieving Image URL**
+    public function getImageAttribute($value)
     {
-        return isset($this->attributes['image']) ? Storage::url($this->attributes['image']) : null;
+        return $value ? Storage::url($value) : null;
     }
+
+    // **Delete Image when Post is Deleted**
+    protected static function booted()
+    {
+        static::deleting(function ($post) {
+            if ($post->image) {
+                // Ensure correct path
+                $imagePath = storage_path('app/public/' . str_replace('/storage/', '', $post->image));
+
+                Log::info('Deleting post image:', ['path' => $imagePath]);
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                    Log::info('Image deleted successfully.');
+                } else {
+                    Log::info('Image not found:', ['path' => $imagePath]);
+                }
+            }
+        });
+
+    }
+
+    // public function setImageAttribute($value)
+    // {
+    //     if (isset($this->attributes['image']) && $value !== $this->attributes['image']) {
+    //         Storage::disk('public')->delete($this->attributes['image']);
+    //     }
+
+    //     $this->attributes['image'] = $value;
+    // }
+
+    // public function getImageAttribute()
+    // {
+    //     return isset($this->attributes['image']) ? Storage::url($this->attributes['image']) : null;
+    // }
 }
