@@ -25,6 +25,13 @@
                 <h2 class="text-base font-medium text-gray-700">Post Creator Info</h2>
             </div>
             <div class="px-4 py-4">
+                @if ($post->image)
+                    <div class="mb-4">
+
+                        <h3 class="text-lg font-medium text-gray-800">Image:</h3>
+                        <img src="{{ $post->image }}" alt="Post Image" class="w-32 h-32 object-cover rounded-lg">
+                    </div>
+                @endif
                 <div class="mb-2">
                     <h3 class="text-lg font-medium text-gray-800">Name :- <span
                             class="font-normal">{{$post->user ? $post->user->name : 'No User Found'}}</span></h3>
