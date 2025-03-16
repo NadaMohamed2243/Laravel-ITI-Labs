@@ -11,8 +11,9 @@ use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
     public function index(){
-        $post= Post::all();
-        return PostResource::collection($post);
+        // $posts= Post::all();
+        $posts = Post::with('user')->paginate(10);
+        return PostResource::collection($posts);
 
     }
 
