@@ -12,20 +12,16 @@ class PostController extends Controller
 {
     public function index(){
         // $posts= Post::all();
+         //eager loading and pagination
         $posts = Post::with('user')->paginate(10);
         return PostResource::collection($posts);
 
     }
 
     public function show($id){
-        $post= Post::findOrFail($id);
-        // return [
-        //     "id" => $post -> id ,
-        //     "title" => $post -> title,
-        //     "description" => $post -> description,
-        //     "creator" => $post -> user -> name,
-        //     "image" => $post -> image,
-        // ];
+        // $post= Post::findOrFail($id);
+        //eager loading
+        $post = Post::with('user')->findOrFail($id);
         return new PostResource($post);
 
     }
@@ -39,14 +35,6 @@ class PostController extends Controller
             'user_id' => request()->creator,
             'image' => request()->file('image') ?? null,
         ]);
-
-        // return [
-        //     "id" => $post -> id ,
-        //     "title" => $post -> title,
-        //     "description" => $post -> description,
-        //     "creator" => $post -> user -> name,
-        //     "image" => $post -> image,
-        // ];
 
         return new PostResource($post);
     }
