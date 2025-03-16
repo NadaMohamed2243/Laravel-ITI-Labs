@@ -61,21 +61,21 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
     $validatedData = $request->validated();
 
-    if ($request->hasFile('image')) {
-        // Delete the old image if a new one is uploaded
-        if ($post->image) {
-            Storage::disk('public')->delete($post->image);
-        }
-        $imagePath = $request->file('image')->store('images', 'public');
-    } else {
-        $imagePath = $post->image; // Keep the existing image
-    }
+    // if ($request->hasFile('image')) {
+    //     // Delete the old image if a new one is uploaded
+    //     if ($post->image) {
+    //         Storage::disk('public')->delete($post->image);
+    //     }
+    //     $imagePath = $request->file('image')->store('images', 'public');
+    // } else {
+    //     $imagePath = $post->image; // Keep the existing image
+    // }
 
     $post->update([
         'title' => $validatedData['title'],
         'description' => $validatedData['description'],
         'user_id' => $validatedData['creator'],
-        'image' => $imagePath,
+        'image' => $request->file('image'),
     ]);
 
     return redirect()->route('posts.index');

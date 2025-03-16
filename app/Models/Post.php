@@ -105,4 +105,23 @@ class Post extends Model
     // {
     //     return isset($this->attributes['image']) ? Storage::url($this->attributes['image']) : null;
     // }
+
+    // protected static function booted()
+    // {
+    //     static::deleting(function ($post) {
+    //         if ($post->image) {
+    //             // Ensure correct path
+    //             $imagePath = storage_path('app/public/' . str_replace('/storage/', '', $post->image));
+
+    //             Log::info('Deleting post image:', ['path' => $imagePath]);
+
+    //             if (file_exists($imagePath)) {
+    //                 unlink($imagePath);
+    //                 Log::info('Image deleted successfully.');
+    //             } else {
+    //                 Log::info('Image not found:', ['path' => $imagePath]);
+    //             }
+    //         }
+    //     });
+    // }
 }

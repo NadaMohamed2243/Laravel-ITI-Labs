@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Models\Post;
 
 
 
@@ -66,4 +67,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__.'/auth.php';
+
+
+// Use Inertia.js to create a new Posts page similar to what we have inside posts/index.blade.php that lists table of posts.
+
+// Route::get('/posts', function () {
+//     return Inertia::render('Posts/PostsIndex',['posts' => Post::with('user')->paginate(10)]);
+// })->middleware(['auth'])->name('posts.index');
+
+
+// Route::get('/storage/{filename}', function ($filename) {
+//     return response()->file(storage_path('app/public/' . $filename));
+// })->where('filename', '.*');
